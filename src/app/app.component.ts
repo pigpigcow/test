@@ -10,6 +10,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Storage } from '@ionic/storage';
 
 import { UserData } from './providers/user-data';
+import { StaticData } from './providers/static-data';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,7 @@ import { UserData } from './providers/user-data';
 export class AppComponent implements OnInit {
   appPages = [
     {
-      title: 'Schedule',
+      title: 'Schedulesfadsf',
       url: '/app/tabs/schedule',
       icon: 'calendar'
     },
@@ -54,6 +55,10 @@ export class AppComponent implements OnInit {
     private swUpdate: SwUpdate,
     private toastCtrl: ToastController,
   ) {
+    this.appPages = StaticData.tabs;
+    for( let tab of StaticData.tabs) {
+      tab.title = tab.label;
+    }
     this.initializeApp();
   }
 
@@ -103,10 +108,6 @@ export class AppComponent implements OnInit {
 
   listenForLoginEvents() {
     window.addEventListener('user:login', () => {
-      this.updateLoggedInStatus(true);
-    });
-
-    window.addEventListener('user:signup', () => {
       this.updateLoggedInStatus(true);
     });
 

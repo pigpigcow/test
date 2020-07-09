@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MenuController, IonSlides } from '@ionic/angular';
 
 import { Storage } from '@ionic/storage';
+import { StaticData } from '../../providers/static-data';
 
 @Component({
   selector: 'page-tutorial',
@@ -12,6 +13,15 @@ import { Storage } from '@ionic/storage';
 })
 export class TutorialPage {
   showSkip = true;
+  staticData = {
+    sections: [
+      {title: 'Welcome to <<AppName>>', image: 'assets/img/ica-slidebox-img-1.png', text: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`},
+      {title: '<<Place holder>>', image: 'assets/img/ica-slidebox-img-2.png', text: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.`},
+      {title: '<<Place holder>>', image: 'assets/img/ica-slidebox-img-3.png', text: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`},
+      {title: 'Ready?', image: 'assets/img/ica-slidebox-img-4.png', text: `Continue`, isLast: true},
+    ],
+    appName: ''
+  };
 
   @ViewChild('slides', { static: true }) slides: IonSlides;
 
@@ -19,7 +29,9 @@ export class TutorialPage {
     public menu: MenuController,
     public router: Router,
     public storage: Storage
-  ) {}
+  ) {
+    this.staticData.appName = StaticData.appName;
+  }
 
   startApp() {
     this.router

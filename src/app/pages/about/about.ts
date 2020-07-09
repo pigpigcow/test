@@ -17,6 +17,14 @@ export class AboutPage {
     header: 'Select a Location'
   };
 
+  srcList = [];
+  panelExpand = true;
+   maxImage = 10;
+   itemLabel = 'Pictures and or confirmation';
+   required = false;
+
+   iconClicked = false;
+
   constructor(public popoverCtrl: PopoverController) { }
 
   async presentPopover(event: Event) {
@@ -25,5 +33,24 @@ export class AboutPage {
       event
     });
     await popover.present();
+  }
+
+  /**
+   * Trigger when button is clicked.
+   * @function onClickItem
+   */
+  public onClickItem() {
+    if (!this.iconClicked) {
+      this.togglePanel();
+    }
+    this.iconClicked = false;
+  }
+
+  /**
+   * Toggle panel and icon
+   * @function togglePanel
+   */
+  public togglePanel() {
+    this.panelExpand = !this.panelExpand;
   }
 }

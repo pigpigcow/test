@@ -1,15 +1,44 @@
 .map-canvas {
-  position: absolute;
-
-  height: 100%;
-  width: 100%;
-
-  background-color: transparent;
-
-  opacity: 0;
-  transition: opacity 150ms ease-in;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    opacity: 0;
+    transition: opacity 150ms ease-in;
 }
 
 .show-map {
-  opacity: 1;
+    opacity: 1;
+}
+
+.imageDimension {
+    width: 92px;
+    height: 92px;
+    padding: 8px;
+}
+
+.wrapper {
+    background: #fff;
+    width: 100%;
+    padding: 2em 2em 4em;
+    margin: 0 auto;
+    color: darkgreen;
+}
+
+.image-label {
+    font-weight: bold;
+    font-size: 85%;
+}
+
+.underlined {
+    border-bottom: 2px solid #dedede;
+}
+
+.iconButtonStandardWidth {
+    width: 10%;
+    font-size: 0px;
+}
+
+.requiredIndicator {
+    color: red;
 }

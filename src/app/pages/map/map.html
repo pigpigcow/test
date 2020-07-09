@@ -1,12 +1,46 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Map</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>{{title}}</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div #mapCanvas class="map-canvas"></div>
+    <div class="about-info">
+        <ion-list lines="none">
+            <ion-item>
+                <ion-label>Delivered?</ion-label>
+                <ion-checkbox slot="end"></ion-checkbox>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Meters recovered</ion-label>
+                <ion-input placeholder="# Meters recovered"></ion-input>
+                <ion-select placeholder="Type">
+                    <ion-select-option value="Yes">Yes</ion-select-option>
+                    <ion-select-option value="No">No</ion-select-option>
+                    <ion-select-option value="NA">N/A</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-item lines="none" (click)="onClickItem()" class="disableBottomBorder underlined" tappable>
+                    <ion-icon slot="start" name="{{panelExpand ? 'arrow-dropdown-circle' : 'arrow-dropdown'}}" style="margin-right: 10px"></ion-icon>
+                    <label><span *ngIf="required" class="requiredIndicator">* </span>{{itemLabel}}</label>
+                    <label slot="end" class="image-label">&nbsp;&nbsp;{{srcList.length}}/{{maxImage}}&nbsp;&nbsp;&nbsp;</label>
+                    <ion-button fill="clear" slot="end" (click)="onIconClick('camera')" class="iconButtonStandardWidth">
+                        <ion-icon name="camera" size="large"></ion-icon>
+                    </ion-button>
+                    <ion-button fill="clear" slot="end" (click)="onIconClick('folder')" class="iconButtonStandardWidth" style="font-size: 5px;">
+                        <ion-icon name="folder" size="large"></ion-icon>
+                    </ion-button>
+                </ion-item>
+                <div id="picture-Panel-{{panelID}}" class="underlined" style="display: none; text-align: center">
+                    <span *ngFor="let item of srcList; let i = index">
+                <img class="imageDimension" (click)="onImage_Click(i)" tappable />
+              </span>
+                </div>
+            </ion-item>
+        </ion-list>
+    </div>
 </ion-content>

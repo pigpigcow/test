@@ -5,6 +5,7 @@ import { AlertController, IonList, IonRouterOutlet, LoadingController, ModalCont
 import { ScheduleFilterPage } from '../schedule-filter/schedule-filter';
 import { ConferenceData } from '../../providers/conference-data';
 import { UserData } from '../../providers/user-data';
+import { StaticData } from '../../providers/static-data';
 
 @Component({
   selector: 'page-schedule',
@@ -12,8 +13,13 @@ import { UserData } from '../../providers/user-data';
   styleUrls: ['./schedule.scss'],
 })
 export class SchedulePage implements OnInit {
-  // Gets a reference to the list element
+  title = "Inspection";
   @ViewChild('scheduleList', { static: true }) scheduleList: IonList;
+
+  staticData = {
+    sections: [
+      { label: 'Current', value: 'all' }, { label: 'History', value: 'favorites' }]
+  };
 
   ios: boolean;
   dayIndex = 0;
@@ -35,40 +41,21 @@ export class SchedulePage implements OnInit {
     public toastCtrl: ToastController,
     public user: UserData,
     public config: Config
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.updateSchedule();
-
-    this.ios = this.config.get('mode') === 'ios';
+    this.update();
   }
 
-  updateSchedule() {
-    // Close any open sliding items when the schedule updates
+  update() {
     if (this.scheduleList) {
       this.scheduleList.closeSlidingItems();
     }
 
-    this.confData.getTimeline(this.dayIndex, this.queryText, this.excludeTracks, this.segment).subscribe((data: any) => {
+    this.confData.getMockData(this.queryText, this.excludeTracks, this.segment).subscribe((data: any) => {
       this.shownSessions = data.shownSessions;
-      this.groups = data.groups;
+      this.groups = data;
     });
-  }
-
-  async presentFilter() {
-    const modal = await this.modalCtrl.create({
-      component: ScheduleFilterPage,
-      swipeToClose: true,
-      presentingElement: this.routerOutlet.nativeEl,
-      componentProps: { excludedTracks: this.excludeTracks }
-    });
-    await modal.present();
-
-    const { data } = await modal.onWillDismiss();
-    if (data) {
-      this.excludeTracks = data;
-      this.updateSchedule();
-    }
   }
 
   async addFavorite(slidingItem: HTMLIonItemSlidingElement, sessionData: any) {
@@ -116,7 +103,7 @@ export class SchedulePage implements OnInit {
           handler: () => {
             // they want to remove this session from their favorites
             this.user.removeFavorite(sessionData.name);
-            this.updateSchedule();
+            this.update();
 
             // close the sliding item and hide the option buttons
             slidingItem.close();
@@ -128,13 +115,12 @@ export class SchedulePage implements OnInit {
     await alert.present();
   }
 
-  async openSocial(network: string, fab: HTMLIonFabElement) {
+  async newRecord() {
     const loading = await this.loadingCtrl.create({
-      message: `Posting to ${network}`,
+      message: `Add new record`,
       duration: (Math.random() * 1000) + 500
     });
     await loading.present();
     await loading.onWillDismiss();
-    fab.close();
   }
 }
